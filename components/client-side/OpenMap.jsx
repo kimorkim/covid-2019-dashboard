@@ -3,7 +3,7 @@ import { jsx } from "@emotion/core";
 import { Map, TileLayer } from "react-leaflet";
 
 const position = [30, 109];
-const Main = () => {
+const OpenMap = () => {
   return (
     <div
       css={{
@@ -26,4 +26,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default OpenMap;
