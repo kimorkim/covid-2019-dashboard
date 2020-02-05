@@ -1,20 +1,19 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
 
-const Wrapper = props => {
+const Flex = props => {
+  const { css, children, ...others } = props;
   return (
     <div
       css={{
-        position: "absolute",
-        display: "flex"
+        display: "flex",
+        ...css
       }}
-      {...props}
-    />
+      {...others}
+    >
+      {children}
+    </div>
   );
 };
-
-function Flex(props) {
-  return <Wrapper css={props.css}>{props.children}</Wrapper>;
-}
 
 export default Flex;

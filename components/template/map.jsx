@@ -1,14 +1,18 @@
-import styled from "@emotion/styled";
+import dynamic from "next/dynamic";
 import Sidebar from "../modules/sidebar";
 import Flex from "../common/flex";
+const Main = dynamic(() => import("../modules/main"), {
+  ssr: false,
+  loading: () => <p>daslkjjdaslkjdaslkdjas</p>
+});
 
-function Map() {
+function MapTemplate() {
   return (
-    <Flex css={{ height: "100%" }}>
+    <Flex css={{ height: "100%", width: "100%", position: "absolute" }}>
       <Sidebar />
-      <div>map</div>
+      <Main />
     </Flex>
   );
 }
 
-export default Map;
+export default MapTemplate;
