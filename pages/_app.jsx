@@ -14,6 +14,11 @@ function MyApp({ Component, pageProps }) {
     <ThemeProvider theme={theme}>
       <Global
         styles={css`
+          @media (prefers-color-scheme: dark) {
+            html {
+              filter: invert(1);
+            }
+          }
           html,
           body {
             margin: 0;
