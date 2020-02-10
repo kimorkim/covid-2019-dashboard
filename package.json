@@ -1,38 +1,49 @@
 {
-  "name": "nCoV",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "next",
-    "debug": "NODE_OPTIONS=--inspect next",
-    "build": "next build",
-    "start": "next start"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kimorkim/2019-nCoV-dashboard.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kimorkim/2019-nCoV-dashboard/issues"
-  },
-  "homepage": "https://github.com/kimorkim/2019-nCoV-dashboard#readme",
-  "dependencies": {
-    "@emotion/core": "^10.0.27",
-    "@emotion/styled": "^10.0.27",
-    "@fortawesome/fontawesome-svg-core": "^1.2.26",
-    "@fortawesome/free-solid-svg-icons": "^5.12.0",
-    "@fortawesome/react-fontawesome": "^0.1.8",
-    "emotion-theming": "^10.0.27",
-    "faunadb": "^2.11.1",
-    "leaflet": "^1.6.0",
-    "next": "^9.2.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-leaflet": "^2.6.1"
-  }
+    "name": "ncov",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "next",
+        "debug": "NODE_OPTIONS=--inspect next",
+        "build": "next build",
+        "start": "next start",
+        "setup": "node ./scripts/setup.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kimorkim/2019-nCoV-dashboard.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/kimorkim/2019-nCoV-dashboard/issues"
+    },
+    "homepage": "https://github.com/kimorkim/2019-nCoV-dashboard#readme",
+    "dependencies": {
+        "@emotion/core": "^10.0.27",
+        "@emotion/styled": "^10.0.27",
+        "@fortawesome/fontawesome-svg-core": "^1.2.26",
+        "@fortawesome/free-solid-svg-icons": "^5.12.0",
+        "@fortawesome/react-fontawesome": "^0.1.8",
+        "@urql/exchange-graphcache": "^2.1.0",
+        "apicache": "^1.5.3",
+        "emotion-theming": "^10.0.27",
+        "faunadb": "^2.11.1",
+        "graphql": "^14.6.0",
+        "graphql-tag": "^2.10.3",
+        "isomorphic-unfetch": "^3.0.0",
+        "leaflet": "^1.6.0",
+        "next": "^9.2.1",
+        "next-urql": "^0.2.5",
+        "react": "^16.12.0",
+        "react-dom": "^16.12.0",
+        "react-is": "^16.12.0",
+        "react-leaflet": "^2.6.1",
+        "request": "^2.88.0",
+        "stream-to-promise": "^2.2.0",
+        "urql": "^1.8.2"
+    }
 }
