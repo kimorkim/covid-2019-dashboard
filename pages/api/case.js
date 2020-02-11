@@ -4,6 +4,15 @@ const apicache = require('apicache');
 
 const cache = apicache.middleware;
 
+const keyMap = {
+    'Province/State': 'state',
+    'Country/Region': 'region',
+    'Last Update': 'lastUpdate',
+    Confirmed: 'confirmed',
+    Deaths: 'deaths',
+    Recovered: 'recovered',
+};
+
 function csvJSON(csv) {
     const lines = csv.split('\n');
     const result = [];
@@ -14,7 +23,7 @@ function csvJSON(csv) {
         const obj = {};
         const currentline = lines[i].split(',');
         for (let j = 0; j < headers.length; j++) {
-            obj[headers[j]] = currentline[j].replace(/\"/gi, '');
+            obj[keyMap[headers[j]]] = currentline[j].replace(/\"/gi, '');
         }
         result.push(obj);
     }
@@ -28,7 +37,7 @@ const client = new faunadb.Client({ secret });
 
 const isExistData = async name => {
     try {
-        await client.query(q.Get(q.Match(q.Index('dailycase_by_name'), name)));
+        await client.query(q.Get(q.Match(q.Index('DailyCase_by_name'), name)));
         return true;
     } catch (e) {
         return false;
@@ -53,16 +62,28 @@ const updateCase = (req, res) => async () => {
             }
             return acc;
         }, {});
+
         const isExist = await isExistData(recent.name);
         if (!isExist) {
             const recentCase = await fetch(recent.download_url);
             const data = await recentCase.text();
-            await client.query(
-                q.Create(q.Collection('dailycase'), {
+            const jsonArr = csvJSON(data);
+            const result = await client.query(
+                q.Create(q.Collection('DailyCase'), {
                     data: {
                         name: recent.name,
-                        cases: csvJSON(data),
                     },
+                })
+            );
+
+            await Promise.all(
+                jsonArr.map(async data => {
+                    data.dailyCase = result.ref;
+                    await client.query(
+                        q.Create(q.Collection('Case'), {
+                            data,
+                        })
+                    );
                 })
             );
         }

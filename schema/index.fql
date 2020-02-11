@@ -1,0 +1,29 @@
+CreateIndex(
+    {
+        name: 'latest_daily_case',
+        source: Collection('DailyCase'),
+        values: {
+            { field: ['ts'], reverse: true },
+            { field: ['data', 'name'] },
+            { field: ['ref'] },
+        }
+    },
+)
+
+Query(Lambda(["size", "after", "before"],
+    Let(
+        {
+            match: Match(Index("latest_daily_case")),
+            page: If(
+                Equals(Var("before"), null),
+                If(
+                    Equals(Var("after"), null),
+                    Paginate(Var("match"), { size: Var("size") }),
+                    Paginate(Var("match"), { size: Var("size"), after: Var("after") })
+                ),
+                Paginate(Var("match"), { size: Var("size"), before: Var("before") }),
+            )
+        },
+        Map(Var("page"), Lambda(["ts", "name", "ref"], Get(Var("ref"))))
+    )
+))
