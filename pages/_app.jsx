@@ -4,8 +4,15 @@ import { withUrqlClient } from 'next-urql';
 const theme = {
     colors: {
         primary: 'hotpink',
+        fontColor1: '#ff416c',
+        fontColor2: 'black',
+        fontColor3: 'green',
         bgColor1: 'white',
         bgColor2: '#f3f3f3',
+        bgColor3: '#f3f3f399',
+    },
+    fonts: {
+        aria: '"Roboto", "Helvetica Neue", Arial, sans-serif',
     },
 };
 
@@ -17,6 +24,7 @@ function MyApp({ Component, pageProps }) {
                     @media (prefers-color-scheme: dark) {
                         html {
                             filter: invert(1);
+                            font-family: ${theme.fonts.aria};
                         }
                     }
                     html,

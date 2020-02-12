@@ -1,6 +1,7 @@
 const fetch = require('isomorphic-unfetch');
 const faunadb = require('faunadb');
 const apicache = require('apicache');
+const csvjson = require('csvjson');
 
 const cache = apicache.middleware;
 
@@ -13,21 +14,21 @@ const keyMap = {
     Recovered: 'recovered',
 };
 
-function csvJSON(csv) {
-    const lines = csv.split('\n');
-    const result = [];
-    const headers = lines[0].split(',');
+const numberKey = ['confirmed', 'deaths', 'recovered'];
 
-    for (let i = 1; i < lines.length; i++) {
-        if (!lines[i]) continue;
-        const obj = {};
-        const currentline = lines[i].split(',');
-        for (let j = 0; j < headers.length; j++) {
-            obj[keyMap[headers[j]]] = currentline[j].replace(/\"/gi, '');
-        }
-        result.push(obj);
-    }
-    return result;
+function changeFormat(items) {
+    return items.map(item => {
+        const result = {};
+        Object.keys(item).forEach(key => {
+            const nextKey = keyMap[key];
+            if (numberKey.includes(nextKey)) {
+                result[nextKey] = Number(item[key]);
+            } else {
+                result[nextKey] = item[key];
+            }
+        });
+        return result;
+    });
 }
 
 const token = process.env.GITHUB_TOKEN;
@@ -64,10 +65,17 @@ const updateCase = (req, res) => async () => {
         }, {});
 
         const isExist = await isExistData(recent.name);
+        console.log(isExist, recent.name);
         if (!isExist) {
             const recentCase = await fetch(recent.download_url);
             const data = await recentCase.text();
-            const jsonArr = csvJSON(data);
+            const jsonArr = changeFormat(
+                csvjson.toObject(data, {
+                    delimiter: ',',
+                    quote: '"',
+                })
+            );
+
             const result = await client.query(
                 q.Create(q.Collection('DailyCase'), {
                     data: {
