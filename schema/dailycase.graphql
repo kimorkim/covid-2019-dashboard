@@ -1,0 +1,21 @@
+type Case {
+    state: String!
+    region: String!
+    lastUpdate: String!
+    confirmed: Int!
+    deaths: Int!
+    recovered: Int!
+    dailyCase: DailyCase
+}
+
+type DailyCase {
+    name: String!
+    cases: [Case] @relation
+}
+
+type Query {
+    allCase: [Case]
+    allDailyCase: [DailyCase]
+    latestDailyCase: [DailyCase]
+        @resolver(name: "latestDailyCase", paginated: true)
+}
