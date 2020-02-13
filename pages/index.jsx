@@ -1,5 +1,11 @@
+import { useEffect } from 'react';
+import Router from 'next/router';
+
 function HomePage() {
-  return <div>Welcome to Next.js!</div>;
+    useEffect(() => {
+        Router.push('/map');
+    });
+    return <div />;
 }
 
 export default HomePage;
