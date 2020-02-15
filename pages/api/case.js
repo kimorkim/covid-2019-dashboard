@@ -48,7 +48,7 @@ const isExistData = async name => {
 const updateCase = (req, res) => async () => {
     try {
         const dailyCase = await fetch(
-            'https://api.github.com/repos/CSSEGISandData/2019-nCoV/contents/daily_case_updates',
+            'https://api.github.com/repos/CSSEGISandData/COVID-19/contents/csse_covid_19_data/csse_covid_19_daily_reports',
             {
                 headers: {
                     Authorization: `token ${token}`,
