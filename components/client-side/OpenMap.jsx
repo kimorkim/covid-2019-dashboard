@@ -10,7 +10,7 @@ const getRadius = count => {
     return Math.max(Math.log2(count) * 2, 5);
 };
 
-/*eslint camelcase: "error"*/
+/*eslint camelcase: ["error", {allow: ["Province_State", "Country_Region"]}]*/
 const createConfirmdMarker = (data = [], theme) => {
     return data.map(target => {
         const {
