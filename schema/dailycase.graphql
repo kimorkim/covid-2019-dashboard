@@ -1,15 +1,19 @@
 type Case {
-    state: String!
-    region: String!
-    lastUpdate: String!
-    confirmed: Int!
-    deaths: Int!
-    recovered: Int!
+    OBJECTID: Int
+    Province_State: String
+    Country_Region: String!
+    Last_Update: Int!
+    Lat: String
+    Long_: String
+    Confirmed: Int!
+    Deaths: Int!
+    Recovered: Int!
     dailyCase: DailyCase
 }
 
 type DailyCase {
     name: String!
+    lastEditDate: Int
     cases: [Case] @relation
 }
 

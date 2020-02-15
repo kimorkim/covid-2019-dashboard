@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import Head from 'next/head';
-import MapComponnent from '../components/template/mapDashboard';
+import MapDashboard from '../components/template/mapDashboard';
 
 function Map() {
     useEffect(() => {
@@ -20,7 +20,7 @@ function Map() {
                     href="/css/leaflet.css"
                 />
             </Head>
-            <MapComponnent />
+            <MapDashboard />
         </>
     );
 }

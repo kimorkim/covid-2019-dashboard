@@ -16,12 +16,16 @@ const DAILY_CASE_QUERY = gql`
         latestDailyCase(_size: 1) {
             data {
                 name
-                cases {
+                cases(_size: 250) {
                     data {
-                        region
-                        confirmed
-                        deaths
-                        recovered
+                        Province_State
+                        Country_Region
+                        Last_Update
+                        Lat
+                        Long_
+                        Confirmed
+                        Deaths
+                        Recovered
                     }
                 }
             }
@@ -29,11 +33,13 @@ const DAILY_CASE_QUERY = gql`
     }
 `;
 
-function MapTemplate() {
+function MapDashboard() {
     const [result] = useQuery({ query: DAILY_CASE_QUERY });
     const { data, fetching, error } = result;
+    console.log(data, fetching, error);
     if (fetching) return <div>Fetching</div>;
     if (error) return <div>Error</div>;
+    if (!data || !data.latestDailyCase) return <div>No Data</div>;
 
     const {
         latestDailyCase: {
@@ -56,4 +62,4 @@ function MapTemplate() {
     );
 }
 
-export default MapTemplate;
+export default MapDashboard;
