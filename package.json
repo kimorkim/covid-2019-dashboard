@@ -30,7 +30,6 @@
         "@fortawesome/react-fontawesome": "^0.1.8",
         "@urql/exchange-graphcache": "^2.1.0",
         "apicache": "^1.5.3",
-        "csvjson": "^5.1.0",
         "emotion-theming": "^10.0.27",
         "faunadb": "^2.11.1",
         "graphql": "^14.6.0",
