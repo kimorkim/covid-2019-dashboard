@@ -8,9 +8,9 @@ const getTotal = ({ cases = {} }) => {
     const { data = [] } = cases;
     return data.reduce(
         (acc, item) => {
-            acc[0] += item.confirmed;
-            acc[1] += item.deaths;
-            acc[2] += item.recovered;
+            acc[0] += item.Confirmed;
+            acc[1] += item.Deaths;
+            acc[2] += item.Recovered;
             return acc;
         },
         [0, 0, 0]

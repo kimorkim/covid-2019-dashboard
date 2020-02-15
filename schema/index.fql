@@ -1,3 +1,4 @@
+// 인덱스 생성
 CreateIndex(
     {
         name: 'latest_daily_case',
@@ -10,6 +11,7 @@ CreateIndex(
     },
 )
 
+// 페이지 네이션 펑션
 Query(Lambda(["size", "after", "before"],
     Let(
         {
@@ -27,3 +29,6 @@ Query(Lambda(["size", "after", "before"],
         Map(Var("page"), Lambda(["ts", "name", "ref"], Get(Var("ref"))))
     )
 ))
+
+// doc 제거
+Map(Paginate(Match(Index("allCase")), {size: 100}), Lambda(["data"], Delete(Var("data"))))
