@@ -15,6 +15,7 @@ function Sidebar() {
                 justifyContent: 'center',
                 flexDirection: 'column',
                 boxShadow: 'rgba(0, 0, 0, 0.25) 0px 1px 3px 0px',
+                zIndex: 1000,
             }}
         >
             <Logo />

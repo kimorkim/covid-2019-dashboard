@@ -36,7 +36,6 @@ const DAILY_CASE_QUERY = gql`
 function MapDashboard() {
     const [result] = useQuery({ query: DAILY_CASE_QUERY });
     const { data, fetching, error } = result;
-    console.log(data, fetching, error);
     if (fetching) return <div>Fetching</div>;
     if (error) return <div>Error</div>;
     if (!data || !data.latestDailyCase) return <div>No Data</div>;
@@ -55,8 +54,8 @@ function MapDashboard() {
                     width: 100%;
                 `}
             >
-                <OpenMap />
-                <Overview dailyCase={dailyCase} />
+                <OpenMap data={dailyCase} />
+                <Overview data={dailyCase} />
             </div>
         </Flex>
     );

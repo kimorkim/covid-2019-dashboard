@@ -19,10 +19,8 @@ const getTotal = ({ cases = {} }) => {
 
 const Overview = props => {
     const theme = useTheme();
-    const { dailyCase } = props;
-    const [total, deaths, recovered] = useMemo(() => getTotal(dailyCase), [
-        dailyCase,
-    ]);
+    const { data } = props;
+    const [total, deaths, recovered] = useMemo(() => getTotal(data), [data]);
     return (
         <Flex
             css={{
@@ -35,6 +33,9 @@ const Overview = props => {
                 justifyContent: 'center',
                 flexDirection: 'column',
                 boxShadow: 'rgba(0, 0, 0, 0.25) 0px 1px 3px 0px',
+                transform: 'translate3d(0px, 0px, 0px)',
+                zIndex: 1000,
+                willChange: 'auto',
             }}
         >
             <div
@@ -52,7 +53,7 @@ const Overview = props => {
                 >
                     {total}
                 </div>
-                <span>확진</span>
+                <span>감염</span>
             </div>
             <div
                 css={css`
@@ -86,7 +87,7 @@ const Overview = props => {
                 >
                     {recovered}
                 </div>
-                <span>완치</span>
+                <span>회복</span>
             </div>
             <div
                 css={css`
