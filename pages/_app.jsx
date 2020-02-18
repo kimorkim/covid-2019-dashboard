@@ -7,7 +7,7 @@ const theme = {
         fontColor1: '#ff416c',
         fontColor2: 'black',
         fontColor3: 'green',
-        fontColor4: 'red',
+        fontColor4: '#ff000077',
         bgColor1: 'white',
         bgColor2: '#f3f3f3',
         bgColor3: '#f3f3f399',

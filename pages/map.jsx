@@ -17,7 +17,7 @@ function Map() {
                     type="text/css"
                     rel="stylesheet"
                     charSet="UTF-8"
-                    href="/css/leaflet.css"
+                    href="/css/ol.css"
                 />
             </Head>
             <MapDashboard />
