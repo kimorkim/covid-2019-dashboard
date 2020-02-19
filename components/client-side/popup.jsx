@@ -11,7 +11,7 @@ const setOverlayContent = (overlay, content) => {
 
 const popup = ({ onLoad, olMap }) => {
     const popupEl = useRef(null);
-    const [overlay, setOverlay] = useState(overlay);
+    const [overlay, setOverlay] = useState();
 
     useEffect(() => {
         const clickEvnet = evt => {
@@ -23,7 +23,7 @@ const popup = ({ onLoad, olMap }) => {
                 setOverlayContent(overlay, feature.get('content'));
                 overlay.setPosition(evt.coordinate);
             } else {
-                overlay.setPosition(undefined);
+                overlay.setPosition();
             }
         };
 
@@ -49,7 +49,7 @@ const popup = ({ onLoad, olMap }) => {
 
     const handleClick = e => {
         e.target.blur();
-        overlay.setPosition(undefined);
+        overlay.setPosition();
         return false;
     };
 
