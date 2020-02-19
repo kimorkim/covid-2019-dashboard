@@ -7,21 +7,21 @@ import { Point } from 'ol/geom';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
 import OSM from 'ol/source/OSM';
-import sourceVector from 'ol/source/Vector';
+import VectorSource from 'ol/source/Vector';
 import {
     Circle as CircleStyle,
-    Fill,
-    Stroke,
-    Style as olStyle,
+    Fill as FillStyle,
+    Stroke as StrokeStyle,
+    Style as OlStyle,
 } from 'ol/style';
-
 import { useTheme } from 'emotion-theming';
-import { useMemo, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Popup from './popup';
 
 const defaultPosition = [129, 38];
 
 const getRadius = count => {
-    return Math.max(Math.log2(count) * 2, 5);
+    return Math.max(Math.log2(count) * 2, 3);
 };
 
 /*eslint camelcase: ["error", {allow: ["Province_State", "Country_Region"]}]*/
@@ -37,52 +37,60 @@ const createConfirmdMarker = (map, data = [], theme) => {
             Recovered,
         } = target;
 
-        const circle = new olStyle({
-            image: new CircleStyle({
-                stroke: new Stroke({
-                    color: 'red',
-                    width: 2,
-                }),
-                radius: getRadius(Confirmed),
-                fill: new Fill({
-                    color: theme.colors.fontColor4,
-                }),
-            }),
-        });
-
         const circleFeature = new Feature({
             geometry: new Point(fromLonLat([Long_, Lat])),
-            name: Confirmed,
-            population: 4000,
-            rainfall: 500,
+            content: `
+                    국가 : ${Country_Region} <br />
+                    ${
+                        Province_State
+                            ? `지역 : ${Province_State}
+                            <br />`
+                            : ''
+                    }
+                    감염 : ${Confirmed}
+                    <br />
+                    사망 : ${Deaths}
+                    <br />
+                    회복 : ${Recovered}`,
         });
-        circleFeature.setStyle(circle);
+
+        circleFeature.setStyle(
+            new OlStyle({
+                image: new CircleStyle({
+                    stroke: new StrokeStyle({
+                        color: 'red',
+                        width: 2,
+                    }),
+                    radius: getRadius(Confirmed),
+                    fill: new FillStyle({
+                        color: theme.colors.fontColor4,
+                    }),
+                }),
+            })
+        );
+
         return circleFeature;
     });
-    const vectorSource = new sourceVector({
-        features: features,
-    });
-    const vectorLayer = new VectorLayer({
-        source: vectorSource,
-    });
-    map.addLayer(vectorLayer);
+    map.addLayer(
+        new VectorLayer({
+            source: new VectorSource({
+                features,
+            }),
+        })
+    );
 };
-// var attributions =
-//     '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ' +
-//     '<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>';
 
-const OpenMap = props => {
+const OpenMap = ({ data }) => {
     const theme = useTheme();
     const mapEl = useRef(null);
     const [olMap, setOlMap] = useState();
+    const [popup, setPopup] = useState();
 
     useEffect(() => {
         const map = new Map({
             layers: [
                 new TileLayer({
-                    source: new OSM({
-                        // attributions,
-                    }),
+                    source: new OSM(),
                 }),
             ],
             target: mapEl.current,
@@ -94,35 +102,35 @@ const OpenMap = props => {
             }),
         });
         setOlMap(map);
+    }, [mapEl, setOlMap, setPopup]);
 
-        map.on('click', function(evt) {
-            var feature = map.forEachFeatureAtPixel(evt.pixel, function(
-                feature
-            ) {
-                return feature;
-            });
+    useEffect(() => {
+        if (olMap && popup) {
+            olMap.addOverlay(popup);
 
-            if (feature) {
-                alert(feature.get('name'));
-            }
-        });
+            const pointEvent = e => {
+                if (!e.dragging) {
+                    var pixel = olMap.getEventPixel(e.originalEvent);
+                    var hit = olMap.hasFeatureAtPixel(pixel);
+                    olMap.getTarget().style.cursor = hit ? 'pointer' : '';
+                }
+            };
 
-        map.on('pointermove', function(e) {
-            if (!e.dragging) {
-                var pixel = map.getEventPixel(e.originalEvent);
-                var hit = map.hasFeatureAtPixel(pixel);
-                map.getTarget().style.cursor = hit ? 'pointer' : '';
-            }
-        });
-        return () => {};
-    }, [mapEl, setOlMap]);
-    const { data } = props;
+            olMap.on('pointermove', pointEvent);
+            return () => {
+                olMap.removeOverlay(popup);
+                olMap.removeEventListener('pointermove', pointEvent);
+            };
+        }
+    }, [olMap, popup]);
+
     useEffect(() => {
         if (olMap) {
             const { cases = {} } = data;
             createConfirmdMarker(olMap, cases.data, theme);
         }
     }, [olMap, data, theme]);
+
     return (
         <>
             <div
@@ -132,7 +140,7 @@ const OpenMap = props => {
                 }}
                 ref={mapEl}
             ></div>
-            <div id="marker">asd</div>
+            <Popup onLoad={setPopup} olMap={olMap} />
         </>
     );
 };
