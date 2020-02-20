@@ -1,6 +1,9 @@
 import { Global, css } from '@emotion/core';
 import { ThemeProvider } from 'emotion-theming';
 import { withUrqlClient } from 'next-urql';
+
+const breakpoints = [480, 767, 1024, 1280];
+
 const theme = {
     colors: {
         primary: 'hotpink',
@@ -15,6 +18,7 @@ const theme = {
     fonts: {
         aria: '"Roboto", "Helvetica Neue", Arial, sans-serif',
     },
+    mq: breakpoints.map(bp => `@media (max-width: ${bp}px)`),
 };
 
 function MyApp({ Component, pageProps }) {

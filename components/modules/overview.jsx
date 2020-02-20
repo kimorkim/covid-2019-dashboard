@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import Flex from '../common/flex';
-import { useTheme } from 'emotion-theming';
 import { useMemo } from 'react';
 
 const getTotal = ({ cases = {} }) => {
@@ -18,28 +17,30 @@ const getTotal = ({ cases = {} }) => {
 };
 
 const Overview = props => {
-    const theme = useTheme();
     const { data } = props;
     const [total, deaths, recovered] = useMemo(() => getTotal(data), [data]);
     return (
         <Flex
-            css={{
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                width: '300px',
-                height: '100%',
-                background: theme.colors.bgColor3,
-                justifyContent: 'center',
-                flexDirection: 'column',
-                boxShadow: 'rgba(0, 0, 0, 0.25) 0px 1px 3px 0px',
-                transform: 'translate3d(0px, 0px, 0px)',
-                zIndex: 1000,
-                willChange: 'auto',
-            }}
+            css={theme => css`
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 300px;
+                height: 100%;
+                background: ${theme.colors.bgColor3};
+                justify-content: center;
+                flex-direction: column;
+                box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px 0px;
+                transform: translate3d(0px, 0px, 0px);
+                z-index: 1000;
+                will-change: auto;
+                ${theme.mq[1]} {
+                    display: none;
+                },
+            `}
         >
             <div
-                css={css`
+                css={theme => css`
                     margin: 10px 0;
                     text-align: center;
                     color: ${theme.colors.fontColor1};
@@ -56,7 +57,7 @@ const Overview = props => {
                 <span>감염</span>
             </div>
             <div
-                css={css`
+                css={theme => css`
                     margin: 10px 0;
                     text-align: center;
                     color: ${theme.colors.fontColor2};
@@ -73,7 +74,7 @@ const Overview = props => {
                 <span>사망</span>
             </div>
             <div
-                css={css`
+                css={theme => css`
                     margin: 10px 0;
                     text-align: center;
                     color: ${theme.colors.fontColor3};
