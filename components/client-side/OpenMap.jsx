@@ -90,6 +90,7 @@ const OpenMap = ({ data }) => {
         const map = new Map({
             layers: [
                 new TileLayer({
+                    className: 'ol-background',
                     source: new OSM(),
                 }),
             ],
@@ -134,10 +135,13 @@ const OpenMap = ({ data }) => {
     return (
         <>
             <div
-                css={{
-                    flex: 1,
-                    height: '100%',
-                }}
+                css={css`
+                    flex: 1;
+                    height: 100%;
+                    .ol-background {
+                        filter: grayscale(1);
+                    }
+                `}
                 ref={mapEl}
             ></div>
             <Popup onLoad={setPopup} olMap={olMap} />
