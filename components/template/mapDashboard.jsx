@@ -3,7 +3,7 @@ import { jsx, css } from '@emotion/core';
 import dynamic from 'next/dynamic';
 import { useQuery } from 'urql';
 import gql from 'graphql-tag';
-import Sidebar from '../modules/sidebar';
+import Menu from '../modules/menu';
 import Overview from '../modules/overview';
 import Flex from '../common/flex';
 const OpenMap = dynamic(() => import('../client-side/OpenMap'), {
@@ -52,14 +52,15 @@ function MapDashboard() {
                 height: 100%;
                 width: 100%;
                 position: absolute;
+                flex-direction: column;
                 ${theme.mq[1]} {
-                    flex-direction: column;
                 }
             `}
         >
-            <Sidebar />
+            <Menu />
             <div
                 css={css`
+                    position: relative;
                     width: 100%;
                     height: 100%;
                 `}

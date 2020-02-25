@@ -6,7 +6,7 @@ import IconButton from '../buttons/iconButton';
 import Flex from '../common/flex';
 import { faChartLine, faMapMarked } from '@fortawesome/free-solid-svg-icons';
 
-function Sidebar() {
+function Menu() {
     return (
         <>
             <Logo />
@@ -19,12 +19,12 @@ function Sidebar() {
                     flex-direction: column;
                     box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px 0px;
                     z-index: 1000;
-                    ${theme.mq[1]} {
-                        order: 1;
-                        height: 72px;
-                        width: 100%;
-                        flex-direction: row;
-                    }
+                    height: 72px;
+                    width: 100%;
+                    flex-direction: row;
+                    // ${theme.mq[1]} {
+                    //     order: 1;
+                    // }
                 `}
             >
                 <IconButton icon={faMapMarked} text={'지도'} />
@@ -34,4 +34,4 @@ function Sidebar() {
     );
 }
 
-export default Sidebar;
+export default Menu;
